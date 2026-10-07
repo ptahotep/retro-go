@@ -10,12 +10,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: ducalex/retro-go-build-env:latest
     strategy:
+      fail-fast: false
       matrix:
         target:
           - esp32-s3-devkit
           - odroid-go
-          - mrgc-g32
 
     steps:
       - name: Checkout repository
@@ -23,12 +25,7 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-
-      - name: Build firmware
+      - name: Build target
         run: |
           python3 rg_tool.py build ${{ matrix.target }}
 
