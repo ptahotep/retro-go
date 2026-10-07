@@ -24,15 +24,15 @@
 // Инициализация ST7789 с инверсией (0x21)
 #define RG_SCREEN_INIT() \
     ILI9341_CMD(0x01);                  /* Software Reset */ \
-    rg_system_sleep(150000); \
+    rg_task_delay(150); \
     ILI9341_CMD(0x11);                  /* Sleep Out */ \
-    rg_system_sleep(255000); \
+    rg_task_delay(255); \
     ILI9341_CMD(0x3A, 0x55);            /* Pixel Format (16bit) */ \
     ILI9341_CMD(0x36, 0x60);            /* Memory Access (MX|MV|BGR) */ \
     ILI9341_CMD(0x21);                  /* Display Inversion ON */ \
     ILI9341_CMD(0x13);                  /* Normal Display Mode On */ \
     ILI9341_CMD(0x29);                  /* Display ON */ \
-    rg_system_sleep(100000);
+    rg_task_delay(100);
 
 // Input
 #define RG_GAMEPAD_ADC_MAP {\
@@ -60,7 +60,7 @@
 // Status LED
 #define RG_GPIO_LED                 GPIO_NUM_38
 
-// SPI Display Pins (-1 вместо GPIO_NUM_NC)
+// SPI Display Pins
 #define RG_GPIO_LCD_MISO            -1
 #define RG_GPIO_LCD_MOSI            GPIO_NUM_12
 #define RG_GPIO_LCD_CLK             GPIO_NUM_48
