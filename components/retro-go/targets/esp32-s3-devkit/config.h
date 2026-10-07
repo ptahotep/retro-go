@@ -62,13 +62,12 @@
 
 // SPI Display Pins
 #define RG_GPIO_LCD_MISO            -1
-#define RG_GPIO_LCD_MOSI            GPIO_NUM_12
-#define RG_GPIO_LCD_CLK             GPIO_NUM_48
-#define RG_GPIO_LCD_CS              -1
-#define RG_GPIO_LCD_DC              GPIO_NUM_47
-#define RG_GPIO_LCD_BCKL            GPIO_NUM_39
-#define RG_GPIO_LCD_RST             GPIO_NUM_3
-
+#define RG_GPIO_LCD_MOSI            GPIO_NUM_11  // SDA (Зеленый)
+#define RG_GPIO_LCD_CLK             GPIO_NUM_10  // SCL / SCK (Синий)
+#define RG_GPIO_LCD_CS              -1           // Если CS не задействован в GPIO, его заземляем (GND)
+#define RG_GPIO_LCD_DC              GPIO_NUM_13  // DC / RS (Желтый)
+#define RG_GPIO_LCD_RST             GPIO_NUM_12  // RES / RST (Фиолетовый)
+#define RG_GPIO_LCD_BCKL            GPIO_NUM_8   // BLK / LED (Красный)
 // SD Card Pins
 #define RG_GPIO_SDSPI_MISO          GPIO_NUM_9
 #define RG_GPIO_SDSPI_MOSI          GPIO_NUM_11
