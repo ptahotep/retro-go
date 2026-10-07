@@ -9,30 +9,24 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container:
-      image: ducalex/retro-go-build-env:latest
-    strategy:
-      fail-fast: false
-      matrix:
-        target:
-          - esp32-s3-devkit
-          - odroid-go
-
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Build target
-        run: |
-          python3 rg_tool.py build ${{ matrix.target }}
+      - name: esp-idf build
+        uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: v4.4.4
+          target: esp32s3
+          command: 'python3 rg_tool.py build esp32-s3-devkit'
 
       - name: Upload Firmware Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: retro-go-${{ matrix.target }}
+          name: retro-go-esp32-s3-devkit
           path: |
             build/*.bin
             build/*.fw
