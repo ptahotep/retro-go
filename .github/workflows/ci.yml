@@ -33,7 +33,7 @@ jobs:
 
     - name: Extract binaries from docker image
       run: |
-        docker run --rm -v $(pwd)/build:/build retro-go:latest sh -c "cp /app/*.fw /build"
+        docker run --rm -v $(pwd)/build:/build retro-go:latest sh -c "find /app -type f \( -name '*.fw' -o -name '*.zip' -o -name '*.bin' \) -exec cp {} /build/ \;"
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
