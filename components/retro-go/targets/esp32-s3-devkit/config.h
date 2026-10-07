@@ -7,8 +7,8 @@
 #define RG_STORAGE_SDSPI_SPEED      SDMMC_FREQ_DEFAULT
 
 // Audio
-#define RG_AUDIO_USE_INT_DAC        0   // 0 = Disable, 1 = GPIO25, 2 = GPIO26, 3 = Both
-#define RG_AUDIO_USE_EXT_DAC        1   // 0 = Disable, 1 = Enable
+#define RG_AUDIO_USE_INT_DAC        0   // 0 = Disable
+#define RG_AUDIO_USE_EXT_DAC        1   // 1 = Enable
 
 // Video
 #define RG_SCREEN_DRIVER            0   // 0 = ILI9341/ST7789
@@ -21,17 +21,17 @@
 #define RG_SCREEN_VISIBLE_AREA      {0, 0, 0, 0}
 #define RG_SCREEN_SAFE_AREA         {0, 0, 0, 0}
 
-// Инициализация для ST7789 с устранением цвета-негатива (0x21)
-#define RG_SCREEN_INIT()                                                  \
-    ILI9341_CMD(0x01);                  /* Software Reset */              \
-    RG_PANIC_SLEEP(150);                                                  \
-    ILI9341_CMD(0x11);                  /* Sleep Out */                   \
-    RG_PANIC_SLEEP(255);                                                  \
-    ILI9341_CMD(0x3A, 0x55);            /* Pixel Format (16bit) */        \
-    ILI9341_CMD(0x36, 0x60);            /* Memory Access (MX|MV|BGR) */   \
-    ILI9341_CMD(0x21);                  /* Display Inversion ON */        \
-    ILI9341_CMD(0x13);                  /* Normal Display Mode On */      \
-    ILI9341_CMD(0x29);                  /* Display ON */                  \
+// Инициализация ST7789 с инверсией (0x21)
+#define RG_SCREEN_INIT() \
+    ILI9341_CMD(0x01);                  /* Software Reset */ \
+    RG_PANIC_SLEEP(150); \
+    ILI9341_CMD(0x11);                  /* Sleep Out */ \
+    RG_PANIC_SLEEP(255); \
+    ILI9341_CMD(0x3A, 0x55);            /* Pixel Format (16bit) */ \
+    ILI9341_CMD(0x36, 0x60);            /* Memory Access (MX|MV|BGR) */ \
+    ILI9341_CMD(0x21);                  /* Display Inversion ON */ \
+    ILI9341_CMD(0x13);                  /* Normal Display Mode On */ \
+    ILI9341_CMD(0x29);                  /* Display ON */ \
     RG_PANIC_SLEEP(100);
 
 // Input
@@ -60,11 +60,11 @@
 // Status LED
 #define RG_GPIO_LED                 GPIO_NUM_38
 
-// SPI Display Pins
-#define RG_GPIO_LCD_MISO            GPIO_NUM_NC
+// SPI Display Pins (-1 вместо GPIO_NUM_NC)
+#define RG_GPIO_LCD_MISO            -1
 #define RG_GPIO_LCD_MOSI            GPIO_NUM_12
 #define RG_GPIO_LCD_CLK             GPIO_NUM_48
-#define RG_GPIO_LCD_CS              GPIO_NUM_NC
+#define RG_GPIO_LCD_CS              -1
 #define RG_GPIO_LCD_DC              GPIO_NUM_47
 #define RG_GPIO_LCD_BCKL            GPIO_NUM_39
 #define RG_GPIO_LCD_RST             GPIO_NUM_3
@@ -76,6 +76,6 @@
 #define RG_GPIO_SDSPI_CS            GPIO_NUM_10
 
 // External I2S DAC
-#define RG_GPIO_SND_I2S_BCK         41
-#define RG_GPIO_SND_I2S_WS          42
-#define RG_GPIO_SND_I2S_DATA        40
+#define RG_GPIO_SND_I2S_BCK         GPIO_NUM_41
+#define RG_GPIO_SND_I2S_WS          GPIO_NUM_42
+#define RG_GPIO_SND_I2S_DATA        GPIO_NUM_40
