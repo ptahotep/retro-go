@@ -33,16 +33,19 @@ jobs:
 
     - name: Build and Extract Firmware
       run: |
-        mkdir -p build
-        # 1. Запускаем сборку прошивки внутри контейнера
-        docker run --rm -v $(pwd)/build:/build retro-go:latest sh -c "python3 rg_tool.py build && cp -r build/* /build/ 2>/dev/null || cp *.fw /build/ 2>/dev/null || true"
+        mkdir -p build_artifacts
         
-        # 2. Проверяем извлеченные файлы
-        echo "=== Содержимое директории build ==="
-        ls -la build/
+        # Запускаем сборку и копируем результаты из всех возможных мест
+        docker run --rm -v $(pwd)/build_artifacts:/out retro-go:latest sh -c "
+          python3 rg_tool.py build || true
+          find / -type f \( -name '*.fw' -o -name '*.bin' -o -name '*.zip' \) ! -path '*/.git/*' ! -path '*/idf/*' -exec cp {} /out/ \; 2>/dev/null || true
+        "
+        
+        echo "=== Содержимое скопированных артефактов ==="
+        ls -la build_artifacts/
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: retro-go-esp32s3-firmware
-        path: build/
+        name: retro-go-firmware
+        path: build_artifacts/
