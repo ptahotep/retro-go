@@ -36,12 +36,12 @@ jobs:
         docker run --rm -v $(pwd)/build:/build retro-go:latest sh -c "find /app -type f \( -name '*.fw' -o -name '*.zip' -o -name '*.bin' \) -exec cp {} /build/ \;"
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: retro-go-esp32-s3
-        path: |
-          build/*.fw
-          build/*.bin
-          build/*.zip
-          build/*.img
+        uses: actions/upload-artifact@v4
+        with:
+          name: retro-go-esp32-s3
+          path: |
+            build/*.fw
+            build/*.bin
+            build/*.zip
+            build/*
         path: build/*.fw
