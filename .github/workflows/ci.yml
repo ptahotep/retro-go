@@ -10,6 +10,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - esp32-s3-devkit
+          - odroid-go
+          - mrgc-g32
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,24 +28,14 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install ESP-IDF
+      - name: Build firmware
         run: |
-          mkdir -p ~/esp
-          cd ~/esp
-          git clone -b v4.4.4 --recursive https://github.com/espressif/esp-idf.git
-          cd esp-idf
-          ./install.sh esp32s3
-          . ./export.sh
-
-      - name: Build ESP32-S3 Target
-        run: |
-          . ~/esp/esp-idf/export.sh
-          python3 rg_tool.py build esp32-s3-devkit
+          python3 rg_tool.py build ${{ matrix.target }}
 
       - name: Upload Firmware Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: esp32-s3-devkit-firmware
+          name: retro-go-${{ matrix.target }}
           path: |
             build/*.bin
             build/*.fw
