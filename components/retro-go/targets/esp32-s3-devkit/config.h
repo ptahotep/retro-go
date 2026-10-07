@@ -24,15 +24,15 @@
 // Инициализация ST7789 с инверсией (0x21)
 #define RG_SCREEN_INIT() \
     ILI9341_CMD(0x01);                  /* Software Reset */ \
-    rg_system_sleep_ms(150); \
+    rg_system_sleep(150000); \
     ILI9341_CMD(0x11);                  /* Sleep Out */ \
-    rg_system_sleep_ms(255); \
+    rg_system_sleep(255000); \
     ILI9341_CMD(0x3A, 0x55);            /* Pixel Format (16bit) */ \
     ILI9341_CMD(0x36, 0x60);            /* Memory Access (MX|MV|BGR) */ \
     ILI9341_CMD(0x21);                  /* Display Inversion ON */ \
     ILI9341_CMD(0x13);                  /* Normal Display Mode On */ \
     ILI9341_CMD(0x29);                  /* Display ON */ \
-    rg_system_sleep_ms(100);
+    rg_system_sleep(100000);
 
 // Input
 #define RG_GAMEPAD_ADC_MAP {\
