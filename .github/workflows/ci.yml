@@ -33,10 +33,10 @@ jobs:
 
     - name: Extract binaries from docker image
       run: |
-        docker run --rm -v $(pwd)/build:/build retro-go:latest sh -c "cp /app/*.fw /build/ 2>/dev/null || cp /app/*.bin /build/ 2>/dev/null || cp /app/*.zip /build/ 2>/dev/null || cp /app/build/* /build/ 2>/dev/null || true"
-
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: retro-go-firmware
-        path: build/
+        mkdir -p build
+        echo "=== Содержимое контейнера ==="
+        docker run --rm retro-go:latest find /app -maxdepth 3
+        echo "=== Копирование бинарников ==="
+        docker run --rm -v $(pwd)/build:/out retro-go:latest sh -c "find /app -type f \( -name '*.fw' -o -name '*.bin' -o -name '*.zip' \) -exec cp {} /out/ \;"
+        echo "=== Файлы в локальной папке build ==="
+        ls -la build/
